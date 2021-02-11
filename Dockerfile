@@ -4,11 +4,15 @@ FROM stencila/executa-all:20210129.1
 
 USER root
 
+# Install tsch needed for netMHC
+RUN apt-get update && apt-get install tcsh
+
 # Install epitopepredict
 RUN pip3 install epitopepredict
 
-# Install tsch needed for netMHC
-RUN apt-get update && apt-get install tcsh
+# Install requirements e.g matplotlib, mhcflurry
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
 
 # Copy over netMHCpan and netMHCIIpan and symlink so in $PATH
 COPY --chown=guest:guest netMHCpan-4.0/ /usr/bin/netMHCpan-4.0/
